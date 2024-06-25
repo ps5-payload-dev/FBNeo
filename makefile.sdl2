@@ -473,7 +473,7 @@ ctv.d ctv.o:	$(ctv.h)
 
 $(ctv.h):	ctv_make.cpp
 	@echo Generating $(srcdir)dep/generated/$(@F)...
-	@$(HOST_CC) $(HOST_CXXFLAGS) $(HOST_LDFLAGS) $< \
+	@$(HOST_CXX) $(HOST_CXXFLAGS) $(HOST_LDFLAGS) $< \
 		-o $(subst $(srcdir),$(objdir),$(<D))/$(<F:.cpp=.exe)  -Dmain=main
 	@$(subst $(srcdir),$(objdir),$(<D))/$(<F:.cpp=.exe) >$@
 
@@ -530,7 +530,7 @@ pgm_draw.d pgm_draw.o:	$(pgm_sprite.h)
 
 $(pgm_sprite.h):	pgm_sprite_create.cpp
 	@echo Generating $(srcdir)dep/generated/$(@F)...
-	@$(HOST_CC) $(HOST_CXXFLAGS) $(HOST_LDFLAGS) $< \
+	@$(HOST_CXX) $(HOST_CXXFLAGS) $(HOST_LDFLAGS) $< \
 		-o $(subst $(srcdir),$(objdir),$(<D))/$(<F:.cpp=.exe)  -Dmain=main
 	@$(subst $(srcdir),$(objdir),$(<D))/$(<F:.cpp=.exe) >$@
 
