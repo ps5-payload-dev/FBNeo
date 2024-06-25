@@ -180,7 +180,7 @@ autdrv := $(drvsrc:.cpp=.o)
 
 CC	?= gcc
 CXX	?= g++
-LD	?= $(CC)
+LD	:= $(CC)
 AS	?= nasm
 
 # While cross-compiling, tools need to be compiled for host so that they can be executed by host.
