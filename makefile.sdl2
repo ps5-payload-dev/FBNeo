@@ -68,7 +68,11 @@ depobj	+= 	neocdlist.o \
 			\
 			inp_sdl2.o aud_sdl.o support_paths.o ips_manager.o scrn.o localise_gamelist.o romdata.o \
 			cd_sdl2.o config.o main.o run.o stringset.o bzip.o drv.o media.o sdl2_gui_ingame.o sdl2_gui_common.o \
-			inpdipsw.o vid_sdl2opengl.o vid_sdl2.o inputbuf.o replay.o sdl2_gui.o sdl2_inprint.o input_sdl2.o stated.o
+			inpdipsw.o vid_sdl2.o inputbuf.o replay.o sdl2_gui.o sdl2_inprint.o input_sdl2.o stated.o
+
+ifdef BUILD_OPENGL
+depobj	+= 	vid_sdl2opengl.o
+endif
 
 ifdef FORCE_PULSE_AUDIO
 alldir	+= 	intf/audio/linux
@@ -96,19 +100,24 @@ incdir	= $(foreach dir,$(alldir),-I$(srcdir)$(dir)) -I$(objdir)dep/generated \
 		  -I$(srcdir)intf/input/sdl `sdl2-config --cflags`
 
 ifdef WINDOWS
-lib	= -lstdc++ `sdl2-config --libs` -lopengl32 -lSDL2_image -lm
+lib	= -lstdc++ `sdl2-config --libs` -lSDL2_image -lm
+ifdef BUILD_OPENGL
+lib += -lopengl32
+endif
 else ifdef DARWIN
 lib	= -lstdc++ `sdl2-config --libs` -lSDL2_image -lm -lpthread
+ifdef BUILD_OPENGL
+lib += -framework OpenGL
+endif
 else
-lib	= -lstdc++ `sdl2-config --libs` -lGL -lSDL2_image -lm -lpthread
+lib	= -lstdc++ `sdl2-config --libs` -lSDL2_image -lm -lpthread
+ifdef BUILD_OPENGL
+lib += -lGL
+endif
 endif
 
 ifdef FORCE_PULSE_AUDIO
 lib += -lpulse-simple
-endif
-
-ifdef DARWIN
-lib += -framework OpenGL
 endif
 
 ifdef INCLUDE_SWITCHRES
