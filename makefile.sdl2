@@ -560,7 +560,7 @@ ifeq ($(MAKELEVEL),1)
 
 %.o:	%.cpp
 	@echo Compiling $<...
-	@$(CC) $(CXXFLAGS) -c $< -o $(subst $(srcdir),$(objdir),$(<D))/$(@F)
+	@$(CXX) $(CXXFLAGS) -c $< -o $(subst $(srcdir),$(objdir),$(<D))/$(@F)
 
 %.o:	%.c
 	@echo Compiling $<...
@@ -598,7 +598,7 @@ ifdef DEPEND
 
 %.d:	%.cpp
 	@echo Generating depend file for $<...
-	@$(CC) -MM -MT "$(subst $(srcdir),$(objdir),$(<D))/$(*F).o $(subst $(srcdir),$(objdir),$(<D))/$(@F)" -x c++ $(CXXFLAGS) $< >$(subst $(srcdir),$(objdir),$(<D))/$(@F)
+	@$(CXX) -MM -MT "$(subst $(srcdir),$(objdir),$(<D))/$(*F).o $(subst $(srcdir),$(objdir),$(<D))/$(@F)" $(CXXFLAGS) $< >$(subst $(srcdir),$(objdir),$(<D))/$(@F)
 
 %.d:	%.rc
 	@echo Generating depend file for $<...
