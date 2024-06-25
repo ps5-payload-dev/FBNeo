@@ -178,15 +178,10 @@ autdrv := $(drvsrc:.cpp=.o)
 #
 #
 
-ifdef DARWIN
-	CC	= gcc
-else
-	CC	= gcc
-endif
-
-CXX	= $(CC)
-LD	= $(CC)
-AS	= nasm
+CC	?= gcc
+CXX	?= g++
+LD	?= $(CC)
+AS	?= nasm
 
 # While cross-compiling, tools need to be compiled for host so that they can be executed by host.
 # if HOST_CC is not set, then we aren't cross-compiling, so we'll use target compiler as host compiler
