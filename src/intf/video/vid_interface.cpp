@@ -22,7 +22,9 @@
 	extern struct VidOut VidOutSDL2Opengl;
 #endif
 #elif defined (BUILD_SDL)
+#if defined (BUILD_OPENGL)
 	extern struct VidOut VidOutSDLOpenGL;
+#endif
 	extern struct VidOut VidOutSDLFX;
 #elif defined (_XBOX)
 	extern struct VidOut VidOutD3D;
@@ -47,7 +49,9 @@ static struct VidOut *pVidOut[] = {
 	&VidOutSDL2Opengl,
 #endif
 #elif defined (BUILD_SDL)
+#if defined (BUILD_OPENGL)
 	&VidOutSDLOpenGL,
+#endif
 	&VidOutSDLFX,
 #elif defined (_XBOX)
 	&VidOutD3D,
