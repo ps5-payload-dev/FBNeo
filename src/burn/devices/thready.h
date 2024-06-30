@@ -22,7 +22,7 @@
 #include "windows.h"
 #endif
 
-#if !defined(WIN32) && ( defined(__linux__) || defined(__ANDROID__) || defined(__APPLE__) )
+#if !defined(WIN32) && ( defined(__FreeBSD__) || defined(__linux__) || defined(__ANDROID__) || defined(__APPLE__) )
   #if defined(__APPLE__)
   #define THREADY THREADY_PTHREADAPL
   #else

@@ -6,6 +6,13 @@
 
 unexport
 
+ifdef PS5_PAYLOAD_SDK
+    include $(PS5_PAYLOAD_SDK)/toolchain/prospero.mk
+else
+    $(error PS5_PAYLOAD_SDK is undefined)
+endif
+
+
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Darwin)
 DARWIN=1
@@ -58,7 +65,7 @@ depobj	+= 	neocdlist.o \
 			\
 			conc.o cong.o dat.o gamc.o gami.o image.o ioapi.o misc.o sshot.o state.o statec.o unzip.o zipfn.o \
 			\
-			adler32.o compress.o crc32.o deflate.o gzclose.o gzlib.o gzread.o gzwrite.o infback.o inffast.o inflate.o inftrees.o \
+			adler32.o compress.o crc32.o deflate.o infback.o inffast.o inflate.o inftrees.o \
 			trees.o uncompr.o zutil.o \
 			\
 			spng.o \
@@ -96,8 +103,8 @@ endif
 # End, platform stuff
 
 incdir	= $(foreach dir,$(alldir),-I$(srcdir)$(dir)) -I$(objdir)dep/generated \
-		  -I/local/include -I$(srcdir)dep/sdl/include \
-		  -I$(srcdir)intf/input/sdl `sdl2-config --cflags`
+		  -I$(srcdir)dep/sdl/include \
+		  -I$(srcdir)intf/input/sdl `$(PS5_SYSROOT)/bin/sdl2-config --cflags`
 
 ifdef WINDOWS
 lib	= -lstdc++ `sdl2-config --libs` -lSDL2_image -lm
@@ -110,7 +117,7 @@ ifdef BUILD_OPENGL
 lib += -framework OpenGL
 endif
 else
-lib	= -lstdc++ `sdl2-config --libs` -lSDL2_image -lm -lpthread
+lib	= `$(PS5_SYSROOT)/bin/sdl2-config --libs` -lwebp -lwebpdemux -lz -lSDL2_image -lm -lpthread
 ifdef BUILD_OPENGL
 lib += -lGL
 endif
@@ -186,8 +193,8 @@ AS	?= nasm
 # While cross-compiling, tools need to be compiled for host so that they can be executed by host.
 # if HOST_CC is not set, then we aren't cross-compiling, so we'll use target compiler as host compiler
 ifeq ($(HOST_CC),)
-HOST_CC       := $(CC)
-HOST_CXX      := $(CXX)
+HOST_CC       := gcc
+HOST_CXX      := g++
 HOST_CFLAGS   := $(CFLAGS)
 HOST_CXXFLAGS := $(CXXFLAGS)
 HOST_LDFLAGS  := $(LDFLAGS)
@@ -364,7 +371,7 @@ ifeq ($(MAKELEVEL),2)
 
 $(objdir)drivers.o:		$(autdrv)
 	@echo Linking drivers...
-	@$(LD) -r -nostdlib -o $@ $^
+	@$(AR) -rsc $@ $^
 
 ifdef WINDOWS
 
@@ -378,7 +385,7 @@ else
 $(NAME):	$(allobj) $(objdir)drivers.o
 	@echo
 	@echo Linking executable... $(NAME)
-	@$(LD) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(lib)
+	@$(CXX) $(CXXFLAGS) $(LDFLAGS) -o $@ $^ $(lib)
 endif
 
 
@@ -577,7 +584,7 @@ else
 
 %.o:
 	@echo Compiling $<...
-	@$(CC) $(CXXFLAGS) -c $< -o $@
+	@$(CXX) $(CXXFLAGS) -c $< -o $@
 
 endif
 
