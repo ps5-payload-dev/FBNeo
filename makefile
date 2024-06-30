@@ -9,6 +9,8 @@ export
 # Make a special build, pass the quoted text as comment (use FORCE_UPDATE declaration below to force recompilation of resources)
 # SPECIALBUILD = "This text will appear in the property sheet of the .exe file"
 
+RELEASEBUILD=1
+#SYMBOL=1
 
 #
 #	Flags. Uncomment any of these declarations to enable their function.
@@ -56,7 +58,7 @@ endif
 FORCE_UPDATE = 1
 
 # Use the __fastcall calling convention when interfacing with A68K/Musashi/Doze
-FASTCALL = 1
+#FASTCALL = 1
 
 # Compress executable with upx (the DEBUG option ignores this)
 # COMPRESS = 1
