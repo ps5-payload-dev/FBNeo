@@ -104,7 +104,7 @@ endif
 
 incdir	= $(foreach dir,$(alldir),-I$(srcdir)$(dir)) -I$(objdir)dep/generated \
 		  -I$(srcdir)dep/sdl/include \
-		  -I$(srcdir)intf/input/sdl `$(PS5_SYSROOT)/bin/sdl2-config --cflags`
+		  -I$(srcdir)intf/input/sdl `$(PS5_PAYLOAD_SDK)/bin/prospero-sdl2-config --cflags`
 
 ifdef WINDOWS
 lib	= -lstdc++ `sdl2-config --libs` -lSDL2_image -lm
@@ -117,7 +117,7 @@ ifdef BUILD_OPENGL
 lib += -framework OpenGL
 endif
 else
-lib	= `$(PS5_SYSROOT)/bin/sdl2-config --libs` -lwebp -lwebpdemux -lz -lSDL2_image -lm -lpthread
+lib	= `$(PS5_PAYLOAD_SDK)/bin/prospero-sdl2-config --libs` -lwebp -lwebpdemux -lz -lSDL2_image -lm -lpthread
 ifdef BUILD_OPENGL
 lib += -lGL
 endif
