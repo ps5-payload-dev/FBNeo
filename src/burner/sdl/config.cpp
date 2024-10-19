@@ -74,12 +74,12 @@ int ConfigAppLoad()
 	FILE* f;
 
 	CreateConfigName(szConfig);
+	printf("Loading config from %s\n", szConfig);
 
 	if ((f = _tfopen(szConfig, _T("rt"))) == NULL)
 	{
 		return 1;
 	}
-	printf("Loading config from %s\n", szConfig);
 #define VAR(x)    { char *szValue = LabelCheck(szLine, #x); \
                     if (szValue) { x = strtol(szValue, NULL, 0); } }
 #define FLT(x)    { char *szValue = LabelCheck(szLine, #x); \
